@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link href="../static/css/main.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <title>YOLO-DurianLeaf - Smart Agriculture Powered by AI</title>
+  </head>
+  <body>
+    <div class="main">
+      <!-- Fetch header.html -->
+      <div id="header-container"></div>
+
+      <section class="hero-banner">
+        <div class="hero-content">
+          <h1 class="hero-title">
+            YOLO-DurianLeaf - Smart Agriculture Powered by AI
+          </h1>
+          <p class="hero-description">
+            DurianLeafGuard is a disease detection model for durian leaves,
+            developed using the powerful YOLOv11 architecture. It is capable of
+            quickly and accurately identifying leaves affected by leaf
+            blight—one of the most common and damaging diseases in durian
+            plants—while also clearly distinguishing them from healthy leaves.
+            With high precision and real-time processing speed, DurianLeafGuard
+            serves as a powerful tool for farmers to monitor plant health
+            instantly, reduce losses, and optimize productivity.
+          </p>
+        </div>
+        <div class="hero-image">
+          <img src="../static/images/img-detected.png" alt="Lá sầu riêng 3D" />
+        </div>
+      </section>
+
+      <div class="product-section">
+        <div class="product-card">
+          <img src="../static/images/nongdan.png" alt="Sản phẩm 1" />
+          <h3>Supports</h3>
+          <p>
+            Helps farmers detect leaf blight on durian early for timely
+            treatment
+          </p>
+        </div>
+
+        <div class="product-card">
+          <img src="../static/images/drop.png" alt="Sản phẩm 2" />
+          <h3>Drone</h3>
+          <p>
+            Can be integrated into drones for automatic aerial garden monitoring
+          </p>
+        </div>
+
+        <div class="product-card">
+          <img src="../static/images/robot.png" alt="Sản phẩm 3" />
+          <h3>Robot</h3>
+          <p>
+            Applicable to garden-patrolling robots to inspect leaves and detect
+            diseases while moving
+          </p>
+        </div>
+
+        <div class="product-card">
+          <img src="../static/images/durianAI.jpg" alt="Sản phẩm 4" />
+          <h3>Yield improvement</h3>
+          <p>
+            Early detection helps protect trees, increase yield, and reduce
+            damage
+          </p>
+        </div>
+      </div>
+      <div id="footer-container"></div>
+    </div>
+    <script>
+      // Fetch and include the content of header.html into the div with id "header-container"
+      fetch("/header")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header-container").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading header:", error));
+    </script>
+
+    <script>
+      // Fetch and include the content of footer.html into the div with id "footer-container"
+      fetch("/footer")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("footer-container").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading footer:", error));
+    </script>
+
+    <script>
+      // Hàm điều hướng đến trang khác
+      function navigateToPage(page) {
+        window.location.href = page; // Điều hướng đến route Flask
+      }
+    </script>
+  </body>
+</html>

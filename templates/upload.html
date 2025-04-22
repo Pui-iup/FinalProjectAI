@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../static/css/main.css" />
+    <link rel="stylesheet" href="../static/css/detect.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <title>Image Recognition.</title>
+  </head>
+  <body>
+    <div class="main">
+      <div id="header-container"></div>
+      <div class="container-product">
+        <div><h2>Analysis Process</h2></div>
+        <div class="product-section">
+          <div class="product-card">
+            <img src="../static/images/DINO.png" alt="Sản phẩm 1" />
+            <h3>Grounding DINO</h3>
+            <p>DINO is designed to detect and classify objects appearing in images.</p>
+          </div>
+          <div><i class="fa-solid fa-arrow-right"></i></div>
+          <div class="product-card">
+            <img src="../static/images/Pl@ntNet.jpg" alt="Sản phẩm 2" />
+            <h3>Pl@ntNet</h3>
+            <p>Pl@ntNet identifies and classifies objects, going beyond DINO's detection of leaves, fruits, or trees to specify their types.</p>
+          </div>
+          <div><i class="fa-solid fa-arrow-right"></i></div>
+          <div class="product-card">
+            <img src="../static/images/YOLO.png" alt="Sản phẩm 3" />
+            <h3>YOLO</h3>
+            <p>YOLO detects whether the leaf image shows symptoms of leaf scorch or if it is a healthy leaf.</p>
+          </div>
+  
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="upload-status-wrapper">
+          <section class="upload-section">
+            <h2><i class="fas fa-cloud-upload-alt"></i> Upload image.</h2>
+            <div class="upload-area">
+              <input
+                type="file"
+                id="imageInput"
+                accept="image/*"
+                class="hidden-input"
+              />
+              <label for="imageInput" class="upload-label">
+                <i class="fas fa-upload"></i> Choose image from computer.
+              </label>
+              <div
+                id="previewImageContainer"
+                class="preview-container"
+                style="display: none"
+              >
+                <h3>Preview image.</h3>
+                <img id="previewImage" src="" alt="Ảnh được chọn" />
+              </div>
+            </div>
+            <button class="analyze-button" id="analyzeButton">
+              <span class="analyze-button-text">Analysis</span>
+              <span class="spinner" style="display: none"></span>
+            </button>
+          </section>
+
+          <section class="status-section">
+            <h2><i class="fas fa-info-circle"></i> Status.</h2>
+            <div id="statusArea" class="status-box">
+              <p id="statusText">💥 No image has been uploaded yet.</p>
+              <ul id="statusList" class="status-list"></ul>
+            </div>
+          </section>
+        </div>
+        <div class="results-chatbot-container">
+          <section
+            class="results-section"
+            id="resultsSection"
+            style="display: none"
+          >
+            <h2><i class="fas fa-check-circle"></i> Analysis Results.</h2>
+            <div class="resultsectionAn">
+              <div class="resultdinoplant">
+                <div id="dinoResults" class="result-box" style="display: none">
+                  <h3><i class="fas fa-object-group"></i> Object Detection</h3>
+                  <ul id="dinoDetectionsList"></ul>
+                </div>
+                <div
+                  id="plantnetResults"
+                  class="result-box"
+                  style="display: none"
+                >
+                  <h3><i class="fas fa-leaf"></i> Species Identification</h3>
+                  <p id="plantnetBestMatch"></p>
+                </div>
+              </div>
+              <div id="yoloResults" class="result-box" style="display: none">
+                <h3><i class="fas fa-image"></i> Leaf Condition Analysis</h3>
+                <div class="image-container">
+                  <img id="detectedImage" src="" alt="Ảnh đã phân tích" />
+                </div>
+                <div id="yoloDetectionsList"></div>
+              </div>
+            </div>
+            <button id="toggleChatbotButton" class="chatbot-toggle-button">
+              <i class="fas fa-robot"></i> Chatbot
+            </button>
+            <section class="chatbot-section" id="chatbotSection">
+              <h2><i class="fas fa-robot"></i> ChatBot provides health condition advice</h2>
+              <div class="chat-container">
+                <div id="chatMessages" class="chat-messages">
+                  <div><img id="detectedImageChat" class=".anh" src=""></div>
+                  <div class="message-container bot" id="chatBot">
+                    <div class="message-avatar bot-avatar">
+                      <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message"></div>
+                  </div>
+                  <div class="message-container user" id="chatUser">
+                     <div class="message-avatar user-avatar">
+                      <i class="fas fa-user"></i>
+                     </div>
+                     <div class="message"></div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                  <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." />
+                  <button id="sendButton"><i class="fas fa-paper-plane"></i></button>
+                </div>
+              </div>
+            </section>
+
+        </div>
+      </div>
+      <div id="footer-container"></div>
+      
+    </div>
+    <script>
+      // Fetch and include the content of header.html into the div with id "header-container"
+      fetch("/header")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header-container").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading header:", error));
+    </script>
+
+    <script>
+      // Fetch and include the content of footer.html into the div with id "footer-container"
+      fetch("/footer")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("footer-container").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading footer:", error));
+    </script>
+    <script>
+      // Hàm điều hướng đến trang khác
+      function navigateToPage(page) {
+        window.location.href = page; // Điều hướng đến route Flask
+      }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const imageInput = document.getElementById("imageInput");
+        const previewImageContainer = document.getElementById(
+          "previewImageContainer"
+        );
+        const previewImage = document.getElementById("previewImage");
+        const analyzeButton = document.getElementById("analyzeButton");
+        const spinner = analyzeButton.querySelector(".spinner");
+        const analyzeButtonText = analyzeButton.querySelector(
+          ".analyze-button-text"
+        );
+        const statusArea = document.getElementById("statusArea");
+        const statusText = document.getElementById("statusText");
+        const statusList = document.getElementById("statusList");
+        const resultsSection = document.getElementById("resultsSection");
+        const chatbotSection = document.getElementById("chatbotSection");
+        const chatBot = document.getElementById("chatBot")
+        const chatUser = document.getElementById("chatUser")
+        const dinoResults = document.getElementById("dinoResults");
+        const dinoDetectionsList =
+          document.getElementById("dinoDetectionsList");
+        const plantnetResults = document.getElementById("plantnetResults");
+        const plantnetBestMatch = document.getElementById("plantnetBestMatch");
+        const yoloResults = document.getElementById("yoloResults");
+        const detectedImageElement = document.getElementById("detectedImage");
+        const detectedImageChat = document.getElementById("detectedImageChat");
+        const yoloDetectionsListDiv =document.getElementById("yoloDetectionsList");
+        const toggleChatbotButton = document.getElementById("toggleChatbotButton");
+        let yoloResultsData = null;
+        const KEYWORDS_TREE = ["tree", "flower", "fruit", "leaf"];
+        
+        imageInput.addEventListener("change", function () {
+          const file = this.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              previewImage.src = e.target.result;
+              previewImageContainer.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+            statusText.textContent = "An image has been selected.";
+            statusList.innerHTML = "";
+            resultsSection.style.display = "none";
+            chatbotSection.style.display = "none";
+            dinoResults.style.display = "none";
+            plantnetResults.style.display = "none";
+            yoloResults.style.display = "none";
+          } else {
+            previewImageContainer.style.display = "none";
+            previewImage.src = "";
+            statusText.textContent = "No image has been uploaded.";
+            statusList.innerHTML = "";
+            resultsSection.style.display = "none";
+            chatbotSection.style.display = "none";
+            dinoResults.style.display = "none";
+            plantnetResults.style.display = "none";
+            yoloResults.style.display = "none";
+          }
+          analyzeButton.disabled = !file;
+        });
+
+        analyzeButton.addEventListener("click", async () => {
+          const file = imageInput.files[0];
+          
+          if (!file) {
+            alert("Please select an image first!");
+            return;
+          }
+
+          analyzeButtonText.style.display = "none";
+          spinner.style.display = "inline-block";
+          statusText.textContent = "Analysis in progress...";
+          statusList.innerHTML = "";
+          resultsSection.style.display = "none";
+          chatbotSection.style.display = "none";
+          dinoResults.style.display = "none";
+          plantnetResults.style.display = "none";
+          yoloResults.style.display = "none";
+          detectedImageElement.src = "";
+          detectedImageChat.src = "";
+          yoloDetectionsListDiv.innerHTML = "";
+
+          const formData = new FormData();
+          formData.append("image", file);
+
+          try {
+            const response = await fetch("/predict", {
+              method: "POST",
+              body: formData,
+            });
+            const data = await response.json();
+            console.log("Dữ liệu trả về:", data);
+
+            if (response.ok) {
+              resultsSection.style.display = "block";
+              chatbotSection.style.display = "flex";
+              let statusUpdates = [];
+
+
+              if (data.dino_detections && data.dino_detections.length > 0) {
+                dinoResults.style.display = "block";
+                dinoDetectionsList.innerHTML = data.dino_detections
+                  .map((item) => `<li>The detected object can be: ${item.charAt(0).toUpperCase() + item.slice(1)}</li>`)
+                  .join("");
+
+                // Viết hoa chữ cái đầu của mỗi từ trong chuỗi
+                const capitalizedDetections = data.dino_detections
+                  .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
+                  .join(", ");
+
+                statusUpdates.push(
+                  `✔️ Objects detected: ${capitalizedDetections}`
+                );
+              } else {
+                statusUpdates.push("⛔ Object not detected.");
+              }
+
+              if (
+                data.plantnet_results &&
+                data.plantnet_results.results &&
+                data.plantnet_results.results.length > 0
+              ) {
+                plantnetResults.style.display = "block";
+                const bestMatch =
+                  data.plantnet_results.results[0].species.commonNames.join(
+                    ", "
+                  ) ||
+                  data.plantnet_results.results[0].species
+                    .scientificNameWithoutAuthor;
+                plantnetBestMatch.textContent = `It is likely to be: ${bestMatch} (confidence level: ${(
+                  data.plantnet_results.results[0].score * 100
+                ).toFixed(2)}%)`;
+                statusUpdates.push(
+                  `💥 The model can identify as: ${bestMatch}`
+                );
+              } else {
+                statusUpdates.push(
+                  "✖️ The model cannot clearly identify the plant species, leaves, or fruits."
+                );
+              }
+
+              if (
+                data.leaf_condition &&
+                Array.isArray(data.leaf_condition) &&
+                data.leaf_condition.length > 0
+              ) {
+                // Có thông tin chi tiết về tình trạng lá (data.leaf_condition là mảng các predictions)
+                console.log(
+                  "Dữ liệu data.leaf_condition (chính là predictions):",
+                  data.leaf_condition
+                );
+                yoloResults.style.display = "block";
+                detectedImageElement.src = data.output_image;
+                // detectedImageElement.src = data.output_image;
+                detectedImageChat.src = data.output_image;
+
+                let detectionsHTML = "<ul>";
+                data.leaf_condition.forEach((pred) => {
+                  // Sử dụng trực tiếp data.leaf_condition
+                  detectionsHTML += `<li>${pred.class}: ${(
+                    pred.confidence * 100
+                  ).toFixed(2)}%</li>`;
+                });
+                detectionsHTML += "</ul>";
+                yoloDetectionsListDiv.innerHTML = detectionsHTML;
+                yoloResultsData = data.leaf_condition;
+              } else if (data.output_image) {
+                // Có ảnh đã vẽ nhưng không có thông tin chi tiết về tình trạng lá (data.leaf_condition không có hoặc rỗng)
+                console.log(
+                  "data.leaf_condition không có hoặc rỗng:",
+                  data.leaf_condition
+                  
+                );
+                yoloResultsData = [];
+                yoloResults.style.display = "block";
+                detectedImageElement.src = data.output_image;
+                detectedImageChat.src = data.output_image;
+                statusUpdates.push(
+                  "😔The leaf condition has been analyzed (no details)."
+                );
+                yoloDetectionsListDiv.textContent =
+                  "😔Specific leaf condition not detected.";
+              }
+              let chatPayload = {};
+
+              if (data.leaf_condition && Array.isArray(data.leaf_condition) && data.leaf_condition.length > 0) {
+                  // Trường hợp 3: Đến YOLO và có kết quả
+                  chatPayload = { leaf_condition_data: data.leaf_condition };
+                  statusUpdates.push("🎊 The leaf condition has been analyzed.");
+                  // ... (phần hiển thị kết quả YOLO)
+              } else if (!data.dino_detections || data.dino_detections.length === 0 || !data.dino_detections.some(phrase => KEYWORDS_TREE.some(keyword => phrase.includes(keyword)))) {
+                  // Trường hợp 1: DINO dừng lại
+                  chatPayload = { dino_detections: data.dino_detections };
+                  statusUpdates.push("⚠️ DINO không phát hiện đối tượng liên quan đến cây/cỏ.");
+              } else if (!data.is_durian && data.plantnet_results && data.plantnet_results.results && data.plantnet_results.results.length > 0) {
+                  // Trường hợp 2: PlantNet dừng lại (không phải sầu riêng)
+                  const bestMatch = data.plantnet_results.results[0].species.commonNames.join(", ") || data.plantnet_results.results[0].species.scientificNameWithoutAuthor;
+                  chatPayload = { dino_detections: data.dino_detections, plantnet_results: data.plantnet_results, not_durian: true, best_match: bestMatch };
+                  statusUpdates.push(`🚫 PlantNet identifies it as likely: ${bestMatch} (not durian).`);
+              } else if (data.dino_detections && data.plantnet_results && data.is_durian === true && (!data.leaf_condition || data.leaf_condition.length === 0)) {
+                  // Trường hợp YOLO không phát hiện, nhưng DINO và PlantNet xác định là sầu riêng
+                  chatPayload = { dino_detections: data.dino_detections, plantnet_results: data.plantnet_results, is_durian: true };
+                  // statusUpdates.push("✔️ Objects detected: : " + data.dino_detections.map(item => item.toUpperCase()).filter(item => KEYWORDS_TREE.includes(item)).join(', '));
+                  // statusUpdates.push("✅ PlantNet confirms it is likely durian.");
+                  statusUpdates.push("✖️No leaf condition analysis results.");
+              } else {
+                  // Trường hợp không xác định khác
+                  chatPayload = { message: "Không có thông tin cụ thể để hỏi." };
+              }
+
+              // Chỉ gọi /chat nếu có payload
+              if (Object.keys(chatPayload).length > 0) {
+                  fetch('/chat', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(chatPayload)
+                  })
+                  .then(res => res.json())
+                  .then(chatData => {
+                      const botMsg = `<div class="message-container bot">
+                          <div class="message-avatar bot-avatar"><i class="fas fa-robot"></i></div>
+                          <div class="message">${chatData.reply}</div>
+                      </div>`;
+                      document.getElementById("chatMessages").innerHTML += botMsg;
+                  });
+              }
+
+              statusText.textContent = "🎉 Analysis complete!";
+              statusList.innerHTML = statusUpdates.map((msg) => `<li>${msg}</li>`).join("");
+            } else {
+              statusText.textContent = `Lỗi: ${
+                data.error || "😔 An error has occurred!"
+              }`;
+              resultsSection.style.display = "block";
+            }
+          } catch (error) {
+            console.error("Error when sending the request:", error);
+            statusText.textContent =
+              "😔 An error occurred during the analysis process.";
+            resultsSection.style.display = "block";
+          } finally {
+            analyzeButtonText.style.display = "inline-block";
+            spinner.style.display = "none";
+          }
+        });
+
+            toggleChatbotButton.addEventListener("click", () => {
+            chatbotSection.style.display =
+            chatbotSection.style.display === "none" ? "flex" : "none";
+
+        });
+      });
+    </script>
+    <script>
+      const sendButton = document.getElementById("sendButton");
+      const chatInput = document.getElementById("chatInput");
+      const chatMessages = document.getElementById("chatMessages");
+
+      function sendMessage() {
+        const userInput = chatInput.value.trim();
+        if (!userInput) return;
+
+        // Hiển thị tin nhắn người dùng
+        const userMsg = `
+          <div class="message-container user">
+            <div class="message-avatar user-avatar"><i class="fas fa-user"></i></div>
+            <div class="message">${userInput}</div>
+          </div>`;
+        chatMessages.innerHTML += userMsg;
+        chatInput.value = "";
+
+        // Gửi tới Flask server
+        fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userInput }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            const botMsg = `
+              <div class="message-container bot">
+                <div class="message-avatar bot-avatar"><i class="fas fa-robot"></i></div>
+                <div class="message">${data.reply}</div>
+              </div>`;
+            chatMessages.innerHTML += botMsg;
+          });
+      }
+
+      // Xử lý khi nhấn nút gửi
+      sendButton.addEventListener("click", sendMessage);
+
+      // Xử lý khi nhấn Enter trong ô input
+      chatInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault(); // tránh xuống dòng
+          sendMessage();
+        }
+      });
+    </script>
+
+    
+  </body>
+</html>
