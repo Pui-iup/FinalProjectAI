@@ -1,0 +1,582 @@
+/* static/css/upload.css */
+/* Bạn có thể kế thừa các style chung từ main.css */
+
+/* Reset some default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+.main {
+  width: 100%;
+  background: linear-gradient(
+    to bottom,
+    to rgba(172, 204, 187, 1),
+    /* #acccbb */ rgba(144, 197, 119, 1),
+    /* #9oc577 */ rgba(116, 166, 93, 1),
+    /* #74a65d */ rgba(89, 145, 70, 1),
+    /* #599146 */ rgba(68, 112, 61, 1) /* #44703d */
+  );
+  padding: 30px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: fit-content; /* Hoặc chỉ cần bỏ width và max-width */
+  max-width: 90%; /* Vẫn giữ max-width theo phần trăm để đảm bảo responsive trên màn hình nhỏ */
+  margin: 20px auto;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h2 i {
+  margin-right: 10px;
+  color: #4caf50;
+}
+
+/* Upload Section */
+.upload-section {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.upload-area {
+  border: 2px dashed #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.upload-label {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-label:hover {
+  background-color: #45a049;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.preview-container {
+  margin-top: 15px;
+}
+
+.preview-container h3 {
+  color: #777;
+  font-size: 1em;
+  margin-bottom: 10px;
+}
+.upload-status-wrapper {
+  display: flex;
+  flex-direction: row; /* Sắp xếp các phần tử con theo chiều ngang */
+  gap: 20px; /* Khoảng cách giữa hai section (tùy chỉnh) */
+  width: 100%; /* Chiếm toàn bộ chiều rộng của container cha */
+}
+
+.upload-section {
+  flex: 1; /* Chia đều không gian có sẵn (tùy chỉnh tỷ lệ nếu muốn) */
+}
+
+.status-section {
+  flex: 1; /* Chia đều không gian có sẵn (tùy chỉnh tỷ lệ nếu muốn) */
+}
+
+.preview-container img {
+  max-width: 300px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.analyze-button {
+  padding: 14px 30px;
+  font-size: 1.1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.analyze-button:hover {
+  background-color: #0056b3;
+}
+
+.analyze-button .spinner {
+  width: 1.2em;
+  height: 1.2em;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Status Section */
+.status-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.status-box {
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+#statusText {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.status-list {
+  list-style: none;
+  padding: 0;
+}
+
+.status-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  color: #666;
+}
+
+.status-list li:last-child {
+  border-bottom: none;
+}
+
+/* Style cho container chứa kết quả và chatbot */
+.results-chatbot-container {
+  display: flex;
+  flex-direction: column; /* Để kết quả và chatbot nằm ngang */
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+  align-items: center;
+}
+
+/* Style cho section chatbot */
+/* Chatbot Section */
+.chatbot-section {
+  flex: 2;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 20px 0; /* Chỉ giữ padding top và bottom */
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+/* Title */
+.chatbot-section h2 {
+  font-size: 1.4em;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #222;
+  font-weight: bold;
+}
+
+/* Container for messages */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 20px 10px; /* Chỉ giữ padding top và bottom */
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+  padding: 20px 10px;
+}
+
+.chat-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+/* Message list */
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.message-container {
+  width: 100%;
+  display: flex;
+  align-items: flex-start; /* Căn chỉnh avatar với dòng đầu tiên của tin nhắn */
+  gap: 10px;
+  /* Thêm margin dưới mỗi tin nhắn */
+}
+
+/* Common message styles */
+.message {
+  padding: 10px 14px;
+  border-radius: 16px;
+  max-width: 90%;
+  word-wrap: break-word;
+  font-size: 0.95em;
+  line-height: 1.4;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+.message-container.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message-container.user .message {
+  background-color: #d1f7c4;
+  align-self: flex-end;
+  color: #333;
+  border-top-right-radius: 4px;
+  padding: 10px 14px;
+  max-width: 75%;
+  word-wrap: break-word;
+  display: flex;
+  align-items: center;
+}
+.message-container.bot .message {
+  background-color: #559e3d;
+  align-self: flex-end;
+  color: #ccc;
+  border-top-left-radius: 4px;
+  padding: 10px 14px;
+  max-width: 75%;
+  word-wrap: break-word;
+  display: flex;
+  align-items: center;
+}
+/* User avatar icon */
+.message-container.user .message-avatar {
+  margin-left: 10px; /* Đảm bảo khoảng cách giữa tin nhắn và icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-container.user .message-avatar {
+  margin-left: 10px;
+  display: flex;
+  align-items: flex-start; /* Căn chỉnh avatar lên trên */
+  justify-content: center; /* Có thể bỏ hoặc giữ tùy ý */
+}
+
+/* Bot message */
+.message.bot {
+  background-color: #f1f1f1;
+  align-self: flex-start;
+  color: #333;
+  border-top-left-radius: 4px;
+}
+
+.message.user {
+  background-color: #d1f7c4;
+  align-self: flex-end; /* Đảm bảo tin nhắn người dùng nằm sát bên phải */
+  color: #333;
+  border-top-right-radius: 4px;
+  max-width: 75%; /* Giới hạn chiều rộng tin nhắn */
+  word-wrap: break-word; /* Đảm bảo tin nhắn không bị tràn ra ngoài */
+}
+
+.message-avatar {
+  font-size: 20px;
+  margin-right: 10px;
+  align-self: flex-start; /* Căn chỉnh avatar lên trên */
+}
+
+.message.bot-avatar {
+  color: #666;
+}
+
+.message.user-avatar {
+  color: #007bff;
+}
+
+/* Chat input area */
+.chat-input-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.chat-input-area input[type="text"] {
+  flex-grow: 1;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chat-input-area input[type="text"]:focus {
+  border-color: #6aa84f;
+}
+
+.chat-input-area button {
+  padding: 10px 16px;
+  background-color: #6aa84f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-input-area button:hover {
+  background-color: #5b9742;
+}
+
+#chatInput {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+}
+
+#sendButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+#sendButton i {
+  margin-left: 5px;
+}
+
+#sendButton:hover {
+  background-color: #0056b3;
+}
+
+/* Results Section */
+.results-section {
+  background-color: #e9ecef;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: row; /* Sắp xếp các phần tử con theo hàng */
+  align-items: flex-start; /* Căn chỉnh các phần tử con từ trên xuống */
+  gap: 20px; /* Khoảng cách giữa các phần tử con (resultdinoplant và yoloResults) */
+}
+.chatbot-toggle-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatbot-toggle-button i {
+  margin-right: 5px;
+}
+
+.chatbot-toggle-button:hover {
+  background-color: #0056b3;
+}
+
+.resultdinoplant {
+  display: flex;
+  flex-direction: column; /* Sắp xếp Dino và PlantNet theo cột (nằm dọc) */
+  flex: 1; /* Chiếm không gian bên trái */
+  gap: 15px; /* Khoảng cách giữa Dino và PlantNet */
+}
+.resultsectionAn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#yoloResults {
+  flex: 1;
+}
+#resultsSection {
+  display: flex;
+  flex-direction: column;
+}
+.result-box {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+}
+
+.result-box h3 {
+  color: #28a745;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.result-box h3 i {
+  margin-right: 10px;
+}
+
+#dinoDetectionsList,
+#yoloDetectionsList {
+  list-style: none;
+  padding: 0;
+}
+
+#dinoDetectionsList li,
+#yoloDetectionsList li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-weight: bold;
+  color: #17a2b8;
+}
+
+#dinoDetectionsList li:last-child,
+#yoloDetectionsList li:last-child {
+  border-bottom: none;
+}
+
+#plantnetBestMatch {
+  font-weight: bold;
+  color: #17a2b8;
+}
+
+.image-container {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+#detectedImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#dinoResults {
+  flex: 1;
+}
+#plantnetResults {
+  flex: 1;
+}
+/* ... (các style CSS hiện tại của bạn) ... */
+
+.message-container {
+  display: flex;
+  align-items: flex-start; /* Để icon và tin nhắn căn chỉnh từ trên xuống */
+  margin-bottom: 8px;
+  max-width: 80%;
+}
+
+.user-message-container {
+  flex-direction: row-reverse; /* Đẩy icon người dùng sang phải */
+}
+
+.bot-message-container {
+  flex-direction: row; /* Icon chatbot bên trái */
+}
+
+.message-icon {
+  width: 30px; /* Kích thước icon */
+  height: 30px;
+  border-radius: 50%; /* Hình tròn */
+  background-color: #ccc; /* Màu nền mặc định */
+  color: white;
+  font-size: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 8px;
+}
+
+.user-message .message-icon {
+  /* Bạn có thể thêm style riêng cho icon người dùng nếu cần */
+  background-color: #007bff; /* Ví dụ: màu xanh dương */
+}
+
+.bot-message .message-icon {
+  /* Bạn có thể thêm style riêng cho icon chatbot nếu cần */
+  background-color: #4caf50; /* Ví dụ: màu xanh lá cây */
+}
+
+.message-text {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background-color: #e2f7cb; /* Màu nền tin nhắn người dùng */
+  color: #333;
+}
+.message-container:has(.message:empty) {
+  display: none;
+}
+
+.bot-message .message-text {
+  background-color: #f0f0f0; /* Màu nền tin nhắn chatbot */
+}
+#detectedImageChat {
+  display: flex; /* Đảm bảo phần tử hiển thị */
+  max-width: 40%; /* Giới hạn kích thước ảnh */
+  max-height: 400px; /* Hạn chế chiều cao để ảnh không vượt quá */
+}
+#detectedImageChat:has(.anh:empty) {
+  display: none;
+}
